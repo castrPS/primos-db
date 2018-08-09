@@ -29,24 +29,26 @@ function isPrime(req, res, next) {
   var id = parseInt(req.params.id);
   db.any('select * from primes where num = $1', id)
     .then(function (data) {
-      if(data.length() > 0){
+      var array = data;
+      if(array.length > 0){
         res.status(200)
           .json({
             status: 'success',
             data: data,
-            message: '"Resultado" : "' + id + ' é primo." , "Menor divisor": "' + id + '"'
+            message: 'Resultado" : ' + id + ' é primo. , Menor divisor": ' + id
           });
         }else{
           var limit = Math.sqrt(id);
           db.any('select * from primes where num <= $1', limit)
             .then(function (data) {
-              for (var i = 0; i<data.length(); i++){
-                if (id % data[i].num == 0){
+              array = data;
+              for (var i = 0; i<array.length; i++){
+                if ((id % array[i].num) == 0){
                   res.status(200)
                     .json({
                         status: 'success',
-                        data: data[i],
-                        message: '"Resultado" : "' + id + ' não é primo." , "Menor divisor": "' + data[i] + '"'
+                        data: array,
+                        message: 'Resultado : ' + id + ' não é primo. , Menor divisor: ' + array[i].num
                   });
                 }
               }
