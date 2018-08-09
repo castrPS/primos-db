@@ -64,7 +64,7 @@ function insertLogTest(req, res, next) {
     /*var inObj = JSON.stringify(inObj);
     var outObj = JSON.stringify(outObj);*/
     db.none("insert into log (IP) " +
-      "values($1, $2)", (ip, hourtime))
+      "values($1, $2)", [ip, hourtime])
     .then(function () {
       res.status(200)
         .json({
