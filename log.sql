@@ -1,0 +1,10 @@
+DROP TABLE log;
+
+CREATE TABLE log (
+	ID SERIAL PRIMARY KEY,
+	IP VARCHAR,
+	hourtime DATE,
+	function VARCHAR,
+	inObj VARCHAR,
+	outObj VARCHAR
+);

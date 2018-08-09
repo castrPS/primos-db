@@ -9,10 +9,37 @@ var pgp = require('pg-promise')(options);
 var connectionString = 'postgres://gwveoxkgwcegmi:01364c26d2792df508acf73865cad04bd9541a3050fbc9489eb009c99463f9a9@ec2-23-23-216-40.compute-1.amazonaws.com:5432/da4k37g2kd3to4';
 var db = pgp(connectionString);
 
+function insertLog(ip, func, inObj, outObj) {
+    var currentdate = new Date(); 
+    var hourtime = currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+    inObj = JSON.stringfy(inObj);
+    outObj = JSON.stringfy(outObj);
+    db.none('insert into log(ip, hourtime, function, inObj, outObj)' +
+      'values($1, $2, $3, $4',
+    ip, hourtime, func, inObj, outObj)
+    .then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Inserted on log'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
 function getPrimes(req, res, next) {
+  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   var limit = parseInt(req.params.id);
   db.any('select * from primes limit $1', limit)
     .then(function (data) {
+      insertLog(ip, 'getPrimes', limit, data);
       res.status(200)
         .json({
           status: 'success',
@@ -26,11 +53,13 @@ function getPrimes(req, res, next) {
 }
 
 function isPrime(req, res, next) {
+  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   var id = parseInt(req.params.id);
   db.any('select * from primes where num = $1', id)
     .then(function (data) {
       var array = data;
       if(array.length > 0){
+        insertLog(ip, 'isPrime', id, array[0].num);
         res.status(200)
           .json({
             status: 'success prime',
@@ -44,6 +73,7 @@ function isPrime(req, res, next) {
               array = data;
               for (var i = 0; i<array.length; i++){
                 if ((id % array[i].num) == 0){
+                  insertLog(ip, 'isPrime', id, array[i].num);
                   res.status(200)
                     .json({
                         status: 'success not-prime',

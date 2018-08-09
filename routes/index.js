@@ -9,7 +9,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/api/primes/:id', db.getPrimes);
 router.get('/api/isPrime/:id', db.isPrime);
-/*router.post('/api/log', db.insertLog);
-router.get('/api/log', db.getLog);*/
+/*router.get('/api/log', db.getLog);*/
 
 module.exports = router;
