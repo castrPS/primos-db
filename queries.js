@@ -53,7 +53,6 @@ function insertLog(ip, func, inObj, outObj) {
 
 function insertLogTest(req, res, next) {
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    ip = ""+ip;
     console.log(ip);
     /*var currentdate = new Date(); 
     var hourtime = currentdate.getDate() + "/"
@@ -65,12 +64,12 @@ function insertLogTest(req, res, next) {
     var inObj = JSON.stringify(inObj);
     var outObj = JSON.stringify(outObj);*/
     db.none("insert into log (IP) " +
-      "values('$1')", ip)
+      "values('-'')")
     .then(function () {
       res.status(200)
         .json({
           status: 'success',
-          message: 'Inserted on log'
+          message: 'Inserted on log' + ip
         });
     })
     .catch(function (err) {
