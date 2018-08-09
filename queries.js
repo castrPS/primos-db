@@ -17,8 +17,8 @@ function insertLog(ip, func, inObj, outObj) {
                 + currentdate.getHours() + ":"  
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
-    inObj = JSON.stringfy(inObj);
-    outObj = JSON.stringfy(outObj);
+    var inObj = JSON.stringify(inObj);
+    var outObj = JSON.stringify(outObj);
     db.none('insert into log(ip, hourtime, function, inObj, outObj)' +
       'values($1, $2, $3, $4',
     ip, hourtime, func, inObj, outObj)
