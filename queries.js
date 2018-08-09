@@ -26,6 +26,11 @@ function getLog(req, res, next) {
     });
 }
 
+function insertLogTest(req, res, next) {
+  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  insertLog(ip, 'getLog', '', '');
+}
+
 function insertLog(ip, func, inObj, outObj) {
     var currentdate = new Date(); 
     var hourtime = currentdate.getDate() + "/"
@@ -113,5 +118,6 @@ function isPrime(req, res, next) {
 module.exports = {
   getPrimes: getPrimes,
   isPrime: isPrime,
-  getLog: getLog
+  getLog: getLog,
+  insertLogTest: insertLogTest
 };
