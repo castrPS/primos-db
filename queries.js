@@ -53,6 +53,7 @@ function insertLog(ip, func, inObj, outObj) {
 
 function insertLogTest(req, res, next) {
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    ip = JSON.stringify(ip);
     /*var currentdate = new Date(); 
     var hourtime = currentdate.getDate() + "/"
                 + (currentdate.getMonth()+1)  + "/" 
