@@ -29,7 +29,7 @@ function isPrime(req, res, next) {
   var id = parseInt(req.params.id);
   db.any('select * from primes where num = $1', id)
     .then(function (data) {
-      if(data != []){
+      if(data.length() > 0){
         res.status(200)
           .json({
             status: 'success',
