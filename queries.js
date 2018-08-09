@@ -6,9 +6,8 @@ var options = {
 };
 
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://localhost:5432/primes';
 var db = pgp({
-            host: 'localhost', 
+            host: 'primos-db.herokuapp.com', 
             port: 5432,
             database: 'primes',
             user: 'postgres',
