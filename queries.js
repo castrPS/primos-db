@@ -9,9 +9,6 @@ var pgp = require('pg-promise')(options);
 var connectionString = 'postgres://gwveoxkgwcegmi:01364c26d2792df508acf73865cad04bd9541a3050fbc9489eb009c99463f9a9@ec2-23-23-216-40.compute-1.amazonaws.com:5432/da4k37g2kd3to4';
 var db = pgp(connectionString);
 
-var txtFile = "log.txt";
-var file = new File(txtFile);
-
 function getLog(req, res, next) {
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   var i = '-';
@@ -40,9 +37,15 @@ function insertLog(ip, func, inObj, outObj) {
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
     var str = "ip: " + ip + "\ndate and time: " + hourtime + "\nfunction called: " + func + "\ninput: " + inObj + "\noutput: " + outObj + "\n";
-    file.open('w');
-    file.writeln(str);
-    file.close();
+    
+    var fs = require('fs');
+    fs.writeFile("log.txt", str, function(err) {
+    if(err) {
+        return console.log(err);
+    }
+
+    console.log("The file was saved!");
+}); 
     db.none('insert into log (IP, hourtime, function, inObj, outObj) ' +
       'values($1, $2, $3, $4, $5)',
     [ip, hourtime, func, inObj, outObj])
