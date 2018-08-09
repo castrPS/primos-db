@@ -51,31 +51,31 @@ function insertLog(ip, func, inObj, outObj) {
     });
 }
 
-/*function insertLogTest(req, res, next) {
+function insertLogTest(req, res, next) {
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     console.log(ip);
-    /*var currentdate = new Date(); 
+    var currentdate = new Date(); 
     var hourtime = currentdate.getDate() + "/"
                 + (currentdate.getMonth()+1)  + "/" 
                 + currentdate.getFullYear() + " @ "  
                 + currentdate.getHours() + ":"  
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
-    var inObj = JSON.stringify(inObj);
-    var outObj = JSON.stringify(outObj);
+    /*var inObj = JSON.stringify(inObj);
+    var outObj = JSON.stringify(outObj);*/
     db.none("insert into log (IP) " +
-      "values($1)", ip)
+      "values($1, $2)", ip, hourtime)
     .then(function () {
       res.status(200)
         .json({
           status: 'success',
-          message: 'Inserted on log with ' + ip
+          message: 'Inserted on log with ' + ip + hourtime
         });
     })
     .catch(function (err) {
       return next(err);
     });
-}*/
+}
 
 function getPrimes(req, res, next) {
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
