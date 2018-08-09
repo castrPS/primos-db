@@ -33,7 +33,7 @@ function isPrime(req, res, next) {
       if(array.length > 0){
         res.status(200)
           .json({
-            status: 'success',
+            status: 'success prime',
             data: array[0].num,
             message: 'Resultado" : ' + id + ' é primo. , Menor divisor": ' + array[0].num
           });
@@ -46,7 +46,7 @@ function isPrime(req, res, next) {
                 if ((id % array[i].num) == 0){
                   res.status(200)
                     .json({
-                        status: 'success',
+                        status: 'success not-prime',
                         data: array[i].num,
                         message: 'Resultado : ' + id + ' não é primo. , Menor divisor: ' + array[i].num
                   });
