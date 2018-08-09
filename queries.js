@@ -51,6 +51,30 @@ function insertLog(ip, func, inObj, outObj) {
     });
 }
 
+function insertLogTest(req, res, next) {
+    /*var currentdate = new Date(); 
+    var hourtime = currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+    var inObj = JSON.stringify(inObj);
+    var outObj = JSON.stringify(outObj);*/
+    db.none("insert into log (IP) " +
+      "values('-')")
+    .then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Inserted on log'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
 function getPrimes(req, res, next) {
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   var limit = parseInt(req.params.id);
@@ -113,5 +137,6 @@ function isPrime(req, res, next) {
 module.exports = {
   getPrimes: getPrimes,
   isPrime: isPrime,
-  getLog: getLog
+  getLog: getLog,
+  insertLogTest: insertLogTest
 };
