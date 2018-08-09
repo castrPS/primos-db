@@ -11,7 +11,9 @@ var db = pgp(connectionString);
 
 function getLog(req, res, next) {
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  insertLog(ip, 'getLog', '', '');
+  var i = '-';
+  var o = '-';
+  insertLog(ip, 'getLog', i, o);
    db.any('select * from log',)
     .then(function (data) {
       res.status(200)
@@ -34,8 +36,6 @@ function insertLog(ip, func, inObj, outObj) {
                 + currentdate.getHours() + ":"  
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
-    var inObj = JSON.stringify(inObj);
-    var outObj = JSON.stringify(outObj);
     db.none('insert into log (IP, hourtime, function, inObj, outObj) ' +
       'values($1, $2, $3, $4, $5)',
     [ip, hourtime, func, inObj, outObj])
@@ -51,7 +51,7 @@ function insertLog(ip, func, inObj, outObj) {
     });
 }
 
-function insertLogTest(req, res, next) {
+/*function insertLogTest(req, res, next) {
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     console.log(ip);
     var currentdate = new Date(); 
@@ -61,8 +61,6 @@ function insertLogTest(req, res, next) {
                 + currentdate.getHours() + ":"  
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
-    /*var inObj = JSON.stringify(inObj);
-    var outObj = JSON.stringify(outObj);*/
     db.none("insert into log (IP, hourtime) " +
       "values($1, $2)", [ip, hourtime])
     .then(function () {
@@ -75,7 +73,7 @@ function insertLogTest(req, res, next) {
     .catch(function (err) {
       return next(err);
     });
-}
+}*/
 
 function getPrimes(req, res, next) {
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -139,6 +137,6 @@ function isPrime(req, res, next) {
 module.exports = {
   getPrimes: getPrimes,
   isPrime: isPrime,
-  getLog: getLog,
-  insertLogTest: insertLogTest
+  getLog: getLog/*,
+  insertLogTest: insertLogTest*/
 };
