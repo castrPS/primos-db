@@ -9,6 +9,22 @@ var pgp = require('pg-promise')(options);
 var connectionString = 'postgres://gwveoxkgwcegmi:01364c26d2792df508acf73865cad04bd9541a3050fbc9489eb009c99463f9a9@ec2-23-23-216-40.compute-1.amazonaws.com:5432/da4k37g2kd3to4';
 var db = pgp(connectionString);
 
+function getLog(req, res, next) {
+   db.any('select * from log',)
+    .then(function (data) {
+      insertLog(ip, 'getLog', '', '');
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'este é o log'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
 function insertLog(ip, func, inObj, outObj) {
     var currentdate = new Date(); 
     var hourtime = currentdate.getDate() + "/"
@@ -95,7 +111,6 @@ function isPrime(req, res, next) {
 
 module.exports = {
   getPrimes: getPrimes,
-  isPrime: isPrime
-  /*insertLog: insertLog,
-  getLog: getLog*/
+  isPrime: isPrime,
+  getLog: getLog
 };
