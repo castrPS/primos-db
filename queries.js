@@ -34,8 +34,8 @@ function isPrime(req, res, next) {
         res.status(200)
           .json({
             status: 'success',
-            data: data,
-            message: 'Resultado" : ' + id + ' é primo. , Menor divisor": ' + id
+            data: array[0].num,
+            message: 'Resultado" : ' + id + ' é primo. , Menor divisor": ' + array[0].num
           });
         }else{
           var limit = Math.sqrt(id);
@@ -47,7 +47,7 @@ function isPrime(req, res, next) {
                   res.status(200)
                     .json({
                         status: 'success',
-                        data: array,
+                        data: array[i].num,
                         message: 'Resultado : ' + id + ' não é primo. , Menor divisor: ' + array[i].num
                   });
                 }
