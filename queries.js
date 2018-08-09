@@ -17,7 +17,7 @@ function getPrimes(req, res, next) {
         .json({
           status: 'success',
           data: data,
-          message: 'Retrieved some prime numbers'
+          message: limit + ' primeiros números primos.'
         });
     })
     .catch(function (err) {
@@ -34,7 +34,7 @@ function isPrime(req, res, next) {
           .json({
             status: 'success',
             data: data,
-            message: 'Retrieved if it is prime'
+            message: '"Resultado" : "' + id + ' é primo." , "Menor divisor": "' + id + '"'
           });
         }else{
           var limit = Math.sqrt(id);
@@ -46,7 +46,7 @@ function isPrime(req, res, next) {
                     .json({
                         status: 'success',
                         data: data[i],
-                        message: 'Retrieved if it is prime'
+                        message: '"Resultado" : "' + id + ' não é primo." , "Menor divisor": "' + data[i] + '"'
                   });
                 }
               }
