@@ -27,7 +27,7 @@ function getPrimes(req, res, next) {
 
 function isPrime(req, res, next) {
   var id = parseInt(req.params.id);
-  db.any('select * from primes where num == $1', id)
+  db.any('select * from primes where num = $1', id)
     .then(function (data) {
       if(data != []){
         res.status(200)
