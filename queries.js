@@ -26,32 +26,6 @@ function getLog(req, res, next) {
     });
 }
 
-function insertLogTest(req, res, next) {
-  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  var currentdate = new Date(); 
-    var hourtime = currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
-                + currentdate.getFullYear() + " @ "  
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds();
-    var inObj = JSON.stringify(inObj);
-    var outObj = JSON.stringify(outObj);
-    db.none('insert into log(ip, hourtime, function, inObj, outObj)' +
-      'values($1, $2, $3, $4',
-    ip, hourtime, 'logTest', '-', '-')
-    .then(function () {
-      res.status(200)
-        .json({
-          status: 'success',
-          message: 'Inserted on log'
-        });
-    })
-    .catch(function (err) {
-      return next(err);
-    });
-}
-
 function insertLog(ip, func, inObj, outObj) {
     var currentdate = new Date(); 
     var hourtime = currentdate.getDate() + "/"
@@ -62,8 +36,8 @@ function insertLog(ip, func, inObj, outObj) {
                 + currentdate.getSeconds();
     var inObj = JSON.stringify(inObj);
     var outObj = JSON.stringify(outObj);
-    db.none('insert into log(ip, hourtime, function, inObj, outObj)' +
-      'values($1, $2, $3, $4',
+    db.none('insert into log(IP, hourtime, function, inObj, outObj)' +
+      'values($1, $2, $3, $4, $5',
     ip, hourtime, func, inObj, outObj)
     .then(function () {
       res.status(200)
@@ -139,6 +113,5 @@ function isPrime(req, res, next) {
 module.exports = {
   getPrimes: getPrimes,
   isPrime: isPrime,
-  getLog: getLog,
-  insertLogTest: insertLogTest
+  getLog: getLog
 };
