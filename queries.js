@@ -139,6 +139,6 @@ function isPrime(req, res, next) {
 module.exports = {
   getPrimes: getPrimes,
   isPrime: isPrime,
-  getLog: getLog/*,
-  insertLogTest: insertLogTest*/
+  getLog: getLog,
+  insertLogTest: insertLogTest
 };
