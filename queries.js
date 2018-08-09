@@ -10,9 +10,10 @@ var connectionString = 'postgres://gwveoxkgwcegmi:01364c26d2792df508acf73865cad0
 var db = pgp(connectionString);
 
 function getLog(req, res, next) {
+  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  insertLog(ip, 'getLog', '', '');
    db.any('select * from log',)
     .then(function (data) {
-      insertLog(ip, 'getLog', '', '');
       res.status(200)
         .json({
           status: 'success',
