@@ -38,7 +38,7 @@ function insertLog(ip, func, inObj, outObj) {
     var outObj = JSON.stringify(outObj);
     db.none('insert into log (IP, hourtime, function, inObj, outObj) ' +
       'values($1, $2, $3, $4, $5)',
-    ip, hourtime, func, inObj, outObj)
+    [ip, hourtime, func, inObj, outObj])
     .then(function () {
       res.status(200)
         .json({
@@ -63,7 +63,7 @@ function insertLogTest(req, res, next) {
                 + currentdate.getSeconds();
     /*var inObj = JSON.stringify(inObj);
     var outObj = JSON.stringify(outObj);*/
-    db.none("insert into log (IP) " +
+    db.none("insert into log (IP, hourtime) " +
       "values($1, $2)", [ip, hourtime])
     .then(function () {
       res.status(200)
