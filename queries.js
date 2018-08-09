@@ -6,13 +6,8 @@ var options = {
 };
 
 var pgp = require('pg-promise')(options);
-var db = pgp({
-            host: 'primos-db.herokuapp.com', 
-            port: 5432,
-            database: 'primes',
-            user: 'postgres',
-            password: '38190971'
-        });
+var connectionString = 'postgres://gwveoxkgwcegmi:01364c26d2792df508acf73865cad04bd9541a3050fbc9489eb009c99463f9a9@ec2-23-23-216-40.compute-1.amazonaws.com:5432/da4k37g2kd3to4';
+var db = pgp(connectionString);
 
 function getPrimes(req, res, next) {
   var limit = parseInt(req.params.id);
@@ -31,16 +26,35 @@ function getPrimes(req, res, next) {
 }
 
 function isPrime(req, res, next) {
-  var limit = parseInt(req.params.id);
-  limit = Math.sqrt(limit);
-  db.any('select * from primes where num <= $1', limit)
+  var id = parseInt(req.params.id);
+  db.any('select * from primes where num == $1', id)
     .then(function (data) {
-      res.status(200)
-        .json({
-          status: 'success',
-          data: data,
-          message: 'Retrieved if it is prime'
-        });
+      if(data != []){
+        res.status(200)
+          .json({
+            status: 'success',
+            data: data,
+            message: 'Retrieved if it is prime'
+          });
+        }else{
+          var limit = Math.sqrt(id);
+          db.any('select * from primes where num <= $1', limit)
+            .then(function (data) {
+              for (var i = 0; i<data.length(); i++){
+                if (id % data[i].num == 0){
+                  res.status(200)
+                    .json({
+                        status: 'success',
+                        data: data[i],
+                        message: 'Retrieved if it is prime'
+                  });
+                }
+              }
+            })
+            .catch(function (err) {
+              return next(err);
+            });
+        }
     })
     .catch(function (err) {
       return next(err);
