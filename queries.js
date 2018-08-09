@@ -64,12 +64,12 @@ function insertLogTest(req, res, next) {
     var inObj = JSON.stringify(inObj);
     var outObj = JSON.stringify(outObj);*/
     db.none("insert into log (IP) " +
-      "values('-')")
+      "values($1)", ip)
     .then(function () {
       res.status(200)
         .json({
           status: 'success',
-          message: 'Inserted on log' + ip
+          message: 'Inserted on log with ' + ip
         });
     })
     .catch(function (err) {
