@@ -97,14 +97,14 @@ function getPrimes(req, res, next) {
     .then(function (data) {
       insertLog(ip, 'getPrimes', limit, data);
       var array = data;
-      var res = [];
+      var numbers = [];
       for (var i = 0; i < array.length; i++){
-        res = res.concat(array[i].num);
+        numbers = numbers.concat(array[i].num);
       }
       res.status(200)
         .json({
           status: 'success',
-          data: res,
+          data: numbers,
           message: limit + ' primeiros números primos.'
         });
     })
