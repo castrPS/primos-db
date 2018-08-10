@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cors({origin: 'https://colmeia-dos-primos.herokuapp.com/'}));
+app.use(cors({origin: 'https://colmeia-dos-primos.herokuapp.com/list'}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
