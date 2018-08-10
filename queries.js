@@ -93,7 +93,7 @@ function insertLog(ip, func, inObj, outObj) {
 function getPrimes(req, res, next) {
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   var limit = parseInt(req.params.id);
-  db.any('select * from primes limit $1', limit)
+  db.any('select num from primes limit $1', limit)
     .then(function (data) {
       insertLog(ip, 'getPrimes', limit, data);
       res.status(200)
