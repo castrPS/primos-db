@@ -28,6 +28,19 @@ function getLog(req, res, next) {
     });
 }
 
+function getLogTxt(req, res, next) {
+  var fs = require('fs');
+  var str = fs.readFile("log.txt", function(err) {
+    if(err) {
+        return console.log(err);
+    }});
+  res.status(200)
+        .json({
+          status: 'success',
+          message: str
+        });
+}
+
 function insertLog(ip, func, inObj, outObj) {
     var currentdate = new Date(); 
     var hourtime = currentdate.getDate() + "/"
@@ -148,5 +161,6 @@ module.exports = {
   getPrimes: getPrimes,
   isPrime: isPrime,
   getLog: getLog/*,
-  insertLogTest: insertLogTest*/
+  insertLogTest: insertLogTest*/,
+  getLogTxt: getLogTxt
 };
