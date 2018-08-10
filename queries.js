@@ -147,7 +147,7 @@ function isPrime(req, res, next) {
                   res.status(200)
                     .json({
                         status: 'success maybe-prime',
-                        data: id,
+                        data: [id],
                         message: 'Resultado : ' + id + ' talvez seja primo.'
                   });
             })
