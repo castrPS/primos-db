@@ -29,14 +29,7 @@ function getLog(req, res, next) {
 }
 
 function getLogTxt(req, res, next) {
-  var fs = require("fs");
-  var contents = fs.readFileSync("log.txt", { "encoding": "utf8"});
-  res.status(200)
-        .json({
-          status: 'success',
-          data: contents,
-          message: 'este é o log'
-        });
+  res.download("log.txt");
 }
 
 function insertLog(ip, func, inObj, outObj) {
