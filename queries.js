@@ -43,7 +43,7 @@ function insertLog(ip, func, inObj, outObj) {
     
     var fs = require('fs');
     var contents = fs.readFileSync("log.txt", { "encoding": "utf8"});
-    var str = "ip: " + ip + "\r\ndate and time: " + hourtime + "\r\nfunction called: " + func + "\r\ninput: " + inObj + "\r\noutput: " + outObj + "\r\n";
+    var str = "\r\n\r\nip: " + ip + "\r\ndate and time: " + hourtime + "\r\nfunction called: " + func + "\r\ninput: " + inObj + "\r\noutput: " + outObj;
     fs.writeFile("log.txt", (contents+str), function(err) {
         if(err) {
             return console.log(err);
