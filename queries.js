@@ -96,10 +96,15 @@ function getPrimes(req, res, next) {
   db.any('select num from primes limit $1', limit)
     .then(function (data) {
       insertLog(ip, 'getPrimes', limit, data);
+      var array = data;
+      var res = [];
+      for (var i = 0; i < array.length; i++){
+        res = res.concat(array[i].num);
+      }
       res.status(200)
         .json({
           status: 'success',
-          data: data,
+          data: res,
           message: limit + ' primeiros números primos.'
         });
     })
