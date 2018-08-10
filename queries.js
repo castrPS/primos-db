@@ -29,15 +29,13 @@ function getLog(req, res, next) {
 }
 
 function getLogTxt(req, res, next) {
-  var fs = require('fs');
-  var str = fs.readFile("log.txt", function(err) {
-    if(err) {
-        return console.log(err);
-    }});
+  var fs = require("fs");
+  var contents = fs.readFileSync("log.txt", { "encoding": "utf8"});
   res.status(200)
         .json({
           status: 'success',
-          message: str
+          data: contents,
+          message: 'este é o log'
         });
 }
 
@@ -49,16 +47,16 @@ function insertLog(ip, func, inObj, outObj) {
                 + currentdate.getHours() + ":"  
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
-    var str = "ip: " + ip + "\ndate and time: " + hourtime + "\nfunction called: " + func + "\ninput: " + inObj + "\noutput: " + outObj + "\n";
     
+    var str = "ip: " + ip + "\ndate and time: " + hourtime + "\nfunction called: " + func + "\ninput: " + inObj + "\noutput: " + outObj + "\n";
     var fs = require('fs');
     fs.writeFile("log.txt", str, function(err) {
-    if(err) {
-        return console.log(err);
-    }
+        if(err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    }); 
 
-    console.log("The file was saved!");
-}); 
     db.none('insert into log (IP, hourtime, function, inObj, outObj) ' +
       'values($1, $2, $3, $4, $5)',
     [ip, hourtime, func, inObj, outObj])
