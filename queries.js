@@ -95,12 +95,13 @@ function getPrimes(req, res, next) {
   var limit = parseInt(req.params.id);
   db.any('select num from primes limit $1', limit)
     .then(function (data) {
-      insertLog(ip, 'getPrimes', limit, data);
+      
       var array = data;
       var numbers = [];
       for (var i = 0; i < array.length; i++){
         numbers = numbers.concat(array[i].num);
       }
+      insertLog(ip, 'getPrimes', limit, numbers);
       res.status(200)
         .json({
           status: 'success',
