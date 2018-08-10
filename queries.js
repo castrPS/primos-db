@@ -143,6 +143,13 @@ function isPrime(req, res, next) {
                   });
                 }
               }
+              insertLog(ip, 'isPrime', id, id);
+                  res.status(200)
+                    .json({
+                        status: 'success maybe-prime',
+                        data: id,
+                        message: 'Resultado : ' + id + ' talvez seja primo.'
+                  });
             })
             .catch(function (err) {
               return next(err);
